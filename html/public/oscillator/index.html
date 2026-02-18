@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Web Audio Synth</title>
+</head>
+<body>
+    <h1>My First Web Audio Oscillator</h1>
+    <button id="start-button">Play Sound 🔊</button>
+
+    <script>
+        const button = document.querySelector('#start-button');
+
+	button.addEventListener('click', () => {
+	    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+	    const oscillator = audioCtx.createOscillator();
+	    const gainNode = audioCtx.createGain(); // 1. Create the "Volume Knob"
+
+	    oscillator.type = 'sine';
+	    oscillator.frequency.setValueAtTime(880, audioCtx.currentTime);
+
+	    // 2. Connect the chain
+	    oscillator.connect(gainNode);
+	    gainNode.connect(audioCtx.destination);
+
+	    // 3. Set volume (0 is silent, 1 is full blast)
+	    gainNode.gain.setValueAtTime(0.5, audioCtx.currentTime);
+
+	    oscillator.start();
+	    gainNode.gain.setValueAtTime(0.0, audioCtx.currentTime+1);
+	    oscillator.stop(audioCtx.currentTime + 1);
+	});
+    </script>
+</body>
+</html>
