@@ -18,7 +18,7 @@ pya = pyaudio.PyAudio()
 MODEL = "gemini-2.5-flash-native-audio-preview-12-2025"
 CONFIG = {
     "response_modalities": ["AUDIO"],
-    "system_instruction": "You are a helpful and friendly AI assistant.",
+    "system_instruction": "You are a helpful and friendly AI assistant. Respond in a firm, authoritative voice of an experienced teacher.",
     "speech_config": {
         # "voice_config": {"prebuilt_voice_config": {"voice_name": "Erinome"}}
         "voice_config": {"prebuilt_voice_config": {"voice_name": "Leda"}}
