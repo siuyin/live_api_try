@@ -6,6 +6,7 @@ dist/
 wheels/
 *.egg-info
 
+.adk
 .env
 *secret*
 *.swp
