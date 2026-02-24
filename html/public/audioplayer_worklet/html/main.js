@@ -9,13 +9,13 @@ function wsconnect() {
 async function playAudio() {
 	const result = await startAudioPlayerWorklet();
 	const [playerNode, audioContext] = result;
+	audioContext.resume();
 
 
 	const socket = wsconnect();
 
 	socket.onmessage = (event) => {
 		playerNode.port.postMessage(event.data);
-		audioContext.resume();
 	};
 }
 
