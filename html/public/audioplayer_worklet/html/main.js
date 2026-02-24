@@ -1,7 +1,7 @@
 import { startAudioPlayerWorklet } from "./audioplayer.js";
 
 function wsconnect() {
-	const socket = new WebSocket("ws://localhost:8080/ws");
+	const socket = new WebSocket("wss://ln03.beyondbroadcast.com:8443/ws");
 	socket.binaryType = "arraybuffer";
 	return socket;
 }
