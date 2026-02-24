@@ -1,8 +1,14 @@
 import { startAudioPlayerWorklet } from "./audioplayer.js";
 
-function wsconnect() {
+function wsurl() {
 	const hostname = window.location.hostname;
-	const socket = new WebSocket(`wss://${hostname}:8443/ws`);
+	const protocol = window.location.protocol;
+	const wsprot = protocol === "http:" ? "ws" : "wss";
+	return `${wsprot}://${hostname}:${window.location.port}/ws`;
+}
+
+function wsconnect() {
+	const socket = new WebSocket(wsurl());
 	socket.binaryType = "arraybuffer";
 	return socket;
 }
