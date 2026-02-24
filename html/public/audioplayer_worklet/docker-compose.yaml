@@ -6,5 +6,3 @@ services:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
       - ./snakeoil:/etc/nginx/ssl/snakeoil:ro
     restart: unless-stopped
-
-      
