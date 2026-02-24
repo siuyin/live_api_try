@@ -7,6 +7,7 @@ function wsconnect() {
 	return socket;
 }
 
+
 async function playAudio() {
 	const result = await startAudioPlayerWorklet();
 	const [playerNode, audioContext] = result;
@@ -18,7 +19,9 @@ async function playAudio() {
 	socket.onmessage = (event) => {
 		playerNode.port.postMessage(event.data);
 	};
+
+	socket.onclose = (event) => {
+	}
 }
 
 window.playAudio = playAudio; // export to global scope
-
