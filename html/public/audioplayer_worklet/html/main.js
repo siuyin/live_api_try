@@ -16,12 +16,22 @@ async function playAudio() {
 
 	const socket = wsconnect();
 
+	socket.onopen = (event) => {
+		//console.log("websocket opened");
+	}
+
 	socket.onmessage = (event) => {
 		playerNode.port.postMessage(event.data);
 	};
 
 	socket.onclose = (event) => {
+		//console.log("websocket closed");
 	}
+
+	socket.onerror = (event) => {
+		console.error('websocket error:',event);
+	}
+
 }
 
 window.playAudio = playAudio; // export to global scope
