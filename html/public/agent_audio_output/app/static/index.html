@@ -8,10 +8,10 @@
 		<script src="/static/js/app.js" type="module"></script>
 	</head>
 	<body>
-		<h1>My static file</h1>
-		<form id="prompt">
-			prompt:<input type="text" name="prompt" required/>
-			<button data-on:click="@post('/prompt', {contentType: 'form'})" >Send</button>
+		<h1>Text prompt, output response</h1>
+		<form id="prompt" style="display: flex; gap: var(--size-fluid-2)">
+			prompt:<textarea rows="3" cols="33" name="prompt" required/></textarea>
+			<button data-on:click="@post('/prompt', {contentType: 'form'})" style="height: fit-content" >Send</button>
 		</form>
 	</body>
 </html>
