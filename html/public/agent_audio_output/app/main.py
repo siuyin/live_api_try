@@ -2,8 +2,13 @@ from dotenv import load_dotenv
 from pathlib import Path
 from typing import Annotated
 
+from datastar_py.fastapi import (
+    DatastarResponse,
+    ReadSignals,
+    ServerSentEventGenerator as sse,
+)
 from fastapi import FastAPI, Form, WebSocket, WebSocketDisconnect
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from google.adk.runners import Runner
 from google.adk.sessions import InMemorySessionService
@@ -33,6 +38,10 @@ async def root():
     return FileResponse(Path(__file__).parent / "static" / "index.html")
 
 
-@app.post("/prompt")
+async def patch_response_div(prompt):
+    yield sse.patch_elements(f"""<div id="response">{prompt}</div>""")
+
+
+@app.post("/prompt", response_class=StreamingResponse)
 async def receive_prompt(prompt: Annotated[str, Form()]):
-    print(f"{prompt}")
+    return DatastarResponse(patch_response_div(prompt))
