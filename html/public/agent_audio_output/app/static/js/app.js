@@ -16,6 +16,32 @@ function wsconnect() {
 	return socket;
 }
 
+function truncate(text,len) {
+	let ret = text || "";
+	if (text.length > len) {ret = text.substring(0,len) + "..."} 
+	return ret;
+}
+
+function tokenUsage(usageMetadata) {
+	const u = usageMetadata;
+	const pt = u.promptTokenCount || 0;
+	const rt = u.candidatesTokenCount || 0;
+	const tt = u.totalTokenCount || 0;
+	return `token usage: ${tt.toLocaleString()} total (${pt.toLocaleString()} prompt + ${rt.toLocaleString()} response)`;
+}
+
+function classifyADKEvent(adkEvent) {
+	const author = adkEvent.author || "system";
+	const ret=[];
+	if (adkEvent.turnComplete) { ret.push("turn complete"); }
+	else if (adkEvent.interrupted) { ret.push("interrupted"); }
+	else if (adkEvent.inputTranscription) { ret.push(`input transciption: ${truncate(adkEvent.inputTranscription.text,60)}`); }
+	else if (adkEvent.outputTranscription) { ret.push(`output transciption: ${truncate(adkEvent.outputTranscription.text,60)}`); }
+	else if (adkEvent.usageMetadata) { ret.push(tokenUsage(adkEvent.usageMetadata)); }
+
+	return ret;
+}
+
 async function playAudio() {
 	const result = await startAudioPlayerWorklet();
 	const [playerNode, audioContext] = result;
@@ -29,7 +55,11 @@ async function playAudio() {
 	}
 
 	socket.onmessage = (event) => {
-		playerNode.port.postMessage(event.data);
+		const adkEvent = JSON.parse(event.data);
+		const ret = classifyADKEvent(adkEvent);
+		if (ret.length != 0) { console.log(ret); }
+
+		//playerNode.port.postMessage(event.data);
 	};
 
 	socket.onclose = (event) => {

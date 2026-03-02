@@ -18,7 +18,7 @@ async def websocket_to_liverequestqueue(
                 live_request_queue.send_content(
                     types.Content(parts=[types.Part(text=json_message["text"])])
                 )
-                print(f"sent {json_message['text']} to live_request_queue")
+                # print(f"sent {json_message['text']} to live_request_queue")
 
 
 async def run_live_to_websocket(
@@ -38,6 +38,7 @@ async def run_live_to_websocket(
     ):
         event_json = event.model_dump_json(exclude_none=True, by_alias=True)
         await websocket.send_text(event_json)
+        # print("run_live: sent event json")
 
 
 def audio_run_config(
