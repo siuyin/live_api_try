@@ -155,12 +155,10 @@ async function playAudio() {
 		const adkEvent = JSON.parse(event.data);
 		const ret = handleADKEvent(adkEvent,playerNode);
 		if (ret.length != 0) { console.log(ret); }
-
-		//playerNode.port.postMessage(event.data);
 	};
 
 	socket.onclose = (event) => {
-		//console.log("websocket closed");
+		console.log("websocket closed");
 	}
 
 	socket.onerror = (event) => {
