@@ -2,14 +2,13 @@ import asyncio
 
 from dotenv import load_dotenv
 from pathlib import Path
-from typing import Annotated
 
 from datastar_py.fastapi import (
     DatastarResponse,
     ReadSignals,
     ServerSentEventGenerator as sse,
 )
-from fastapi import FastAPI, Form, WebSocket, WebSocketDisconnect
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.responses import FileResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from google.adk.agents.live_request_queue import LiveRequestQueue
@@ -48,11 +47,6 @@ async def root():
 
 async def patch_response_div(prompt):
     yield sse.patch_elements(f"""<div id="response">{prompt}</div>""")
-
-
-@app.post("/prompt", response_class=StreamingResponse)
-async def receive_prompt(prompt: Annotated[str, Form()]):
-    return DatastarResponse(patch_response_div(prompt))
 
 
 @app.websocket("/ws/{user_id}/{session_id}")

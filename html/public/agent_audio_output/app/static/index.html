@@ -8,19 +8,17 @@
 		<script src="/static/js/app.js" type="module"></script>
 	</head>
 	<body>
-		<h1>Text prompt, output response</h1>
-		<form id="prompt" style="display: flex; gap: var(--size-fluid-2)">
-			prompt:<textarea rows="3" cols="33" name="prompt" required/></textarea>
-			<button data-on:click="@post('/prompt', {contentType: 'form'})" style="height: fit-content" >Send</button>
-		</form>
-
-		<div id="response">
-		</div>
-
+		<h1>Text prompt, audio response</h1>
 		<div style="display: flex; gap: var(--size-fluid-3)">
 			<button data-on:click="playAudio()">Connect</button>
 			<button data-on:click="sendMessage('Why is the sky blue?')">Why Sky Blue?</button>
 			<button data-on:click="sendMessage('What is the value of Pi?')">Value of Pi?</button>
 		</div>
+
+		<div style="display: flex; gap: var(--size-fluid-2); margin-top: var(--size-fluid-3)">
+			prompt:<textarea id="prompt" rows="3" cols="33" name="prompt" required/></textarea>
+			<button data-on:click="const ta=document.getElementById('prompt'); sendMessage(ta.value)" style="height: fit-content" >Send</button>
+		</div>
+
 	</body>
 </html>
