@@ -3,13 +3,9 @@ import asyncio
 from dotenv import load_dotenv
 from pathlib import Path
 
-from datastar_py.fastapi import (
-    DatastarResponse,
-    ReadSignals,
-    ServerSentEventGenerator as sse,
-)
+from datastar_py.fastapi import ServerSentEventGenerator as sse
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
-from fastapi.responses import FileResponse, StreamingResponse
+from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from google.adk.agents.live_request_queue import LiveRequestQueue
 from google.adk.runners import Runner

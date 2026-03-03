@@ -31,3 +31,7 @@ docker run --rm \
     --region=us-central1 \
     --allow-unauthenticated
 ```
+
+## Cold start time on cloud run
+I measured cold start time to be about 15 seconds.
+I clicked "connect" and a response showed on my browser console some 13 to 15 seconds later.

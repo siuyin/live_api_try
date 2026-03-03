@@ -1,23 +1,25 @@
 <!doctype html>
 <html lang="en">
-	<head>
-		<title>Audio out</title>
-    		<link rel="stylesheet" href="https://unpkg.com/open-props"/>
-		<link rel="stylesheet" href="/static/css/style.css">
-		<script type="module" src="https://cdn.jsdelivr.net/gh/starfederation/datastar@1.0.0-RC.7/bundles/datastar.js"></script>
-		<script src="/static/js/app.js" type="module"></script>
-	</head>
-	<body>
-		<h1>Text prompt, audio response</h1>
-		<div style="display: flex; gap: var(--size-fluid-3)">
-			<button data-on:click="playAudio()">Connect</button>
-			<button data-on:click="sendMessage('Why is the sky blue?')">Why Sky Blue?</button>
-			<button data-on:click="sendMessage('What is the value of Pi?')">Value of Pi?</button>
-		</div>
+  <head>
+    <title>Audio out</title>
+    <link rel="stylesheet" href="https://unpkg.com/open-props"/>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script type="module" src="https://cdn.jsdelivr.net/gh/starfederation/datastar@1.0.0-RC.7/bundles/datastar.js"></script>
+    <script src="/static/js/app.js" type="module"></script>
+  </head>
+  <body>
+    <h1>Text prompt, audio response</h1>
+    <div style="display: flex; gap: var(--size-fluid-3)">
+      <button data-on:click="playAudio()">Connect</button>
+      <button data-on:click="sendMessage('Why is the sky blue?')">Why Sky Blue?</button>
+      <button data-on:click="sendMessage('What is the value of Pi?')">Value of Pi?</button>
+    </div>
 
-		<div style="display: flex; gap: var(--size-fluid-2); margin-top: var(--size-fluid-3)">
-			prompt:<textarea id="prompt" rows="3" cols="33" name="prompt" required/></textarea>
-			<button data-on:click="const ta=document.getElementById('prompt'); sendMessage(ta.value)" style="height: fit-content" >Send</button>
-		</div>
-	</body>
+    <div style="display: flex; gap: var(--size-fluid-2); margin-top: var(--size-fluid-3)">
+      prompt:<textarea id="prompt" rows="3" cols="33" name="prompt" required/></textarea>
+      <button data-on:click="const ta=document.getElementById('prompt'); sendMessage(ta.value)" style="height: fit-content" >
+        Send
+      </button>
+    </div>
+  </body>
 </html>
