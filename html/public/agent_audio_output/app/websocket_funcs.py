@@ -10,15 +10,17 @@ from google.genai import types
 async def websocket_to_liverequestqueue(
     websocket: WebSocket, live_request_queue: LiveRequestQueue
 ) -> None:
-    while True:
-        message = await websocket.receive()
-        if "text" in message:
-            json_message = json.loads(message["text"])
+    try:
+        while True:
+            json_message = await websocket.receive_json()
             if json_message.get("type") == "text":
                 live_request_queue.send_content(
                     types.Content(parts=[types.Part(text=json_message["text"])])
                 )
-                # print(f"sent {json_message['text']} to live_request_queue")
+    except (WebSocketDisconnect, RuntimeError):
+        pass
+    finally:
+        pass
 
 
 async def run_live_to_websocket(

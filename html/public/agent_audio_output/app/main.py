@@ -1,3 +1,7 @@
+# This is a fastAPI app.
+# The main endpoints are "/" to provide static html, css and javascript.
+# and /ws/userId/sessionId which is the main conduit to ADK's bidirectional API.
+
 import asyncio
 
 from dotenv import load_dotenv
@@ -76,13 +80,20 @@ async def websocket_endpoint(
 
     live_request_queue = LiveRequestQueue()
 
-    try:
-        await asyncio.gather(
-            websocket_to_liverequestqueue(websocket, live_request_queue),
-            run_live_to_websocket(
-                websocket, runner, run_config, user_id, session_id, live_request_queue
-            ),
+    t1 = asyncio.create_task(
+        websocket_to_liverequestqueue(websocket, live_request_queue)
+    )
+    t2 = asyncio.create_task(
+        run_live_to_websocket(
+            websocket, runner, run_config, user_id, session_id, live_request_queue
         )
+    )
+    try:
+        done, pending = await asyncio.wait(
+            [t1, t2], return_when=asyncio.FIRST_COMPLETED
+        )
+        for task in pending:
+            task.cancel()
     except WebSocketDisconnect:
         print("WebSocket Disconnected")
     except Exception as e:
