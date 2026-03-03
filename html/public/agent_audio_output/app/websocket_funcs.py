@@ -48,7 +48,10 @@ def audio_run_config(
         speech_config=types.SpeechConfig(
             voice_config=types.VoiceConfig(
                 prebuilt_voice_config=types.PrebuiltVoiceConfig(
-                    voice_name="Gacrux"
+                    voice_name="Fenrir"
+                    # voice_name="Leda"
+                    # voice_name="Laomedeia"
+                    # voice_name="Gacrux"
                     # voice_name="Sulafat"
                 )
             )

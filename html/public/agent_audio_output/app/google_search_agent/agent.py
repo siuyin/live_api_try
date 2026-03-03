@@ -12,5 +12,5 @@ agent = Agent(
         "DEMO_AGENT_MODEL", "gemini-2.5-flash-native-audio-preview-12-2025"
     ),
     tools=[google_search],
-    instruction="You are a helpful assistant that can search the web. Respond with a firm, authoritative voice of an experienced teacher.",
+    instruction="You are a helpful assistant that can search the web. Respond with the tone a good friend.",
 )
