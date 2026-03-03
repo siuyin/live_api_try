@@ -27,6 +27,7 @@ docker run --rm \
   gcloud run deploy hello-service \
     --project=yourGoogleProject \
     --image=docker.io/siuyin/liveaudio:mmddHHMM \
+    --min-instances=0 --max-instances=1 \
     --set-env-vars=GOOGLE_API_KEY=yourAPIKey \
     --region=us-central1 \
     --allow-unauthenticated

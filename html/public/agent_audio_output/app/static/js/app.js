@@ -1,24 +1,70 @@
-// playAudio is the main routine. Start there
+// wsconnect is the main routine. Start there.
 
 import { startAudioPlayerWorklet } from "/static/js/audioplayer.js";
+
+const userId = "demo-user";
+const sessionId = "demo-session-" + Math.random().toString(36).substring(7);
 let socket;
 let playerNode;
 let audioContext;
 
+async function wsconnect() {
+  socket = new WebSocket(wsurl());
+  socket.binaryType = "arraybuffer";
+
+  socket.onopen = (event) => {
+    console.log("websocket opened");
+    setConnectedCheckbox(true);
+  }
+
+  socket.onmessage = (event) => {
+    const adkEvent = JSON.parse(event.data);
+    const ret = handleADKEvent(adkEvent,playerNode);
+    if (ret.length != 0) { console.log(ret); }
+  };
+
+  socket.onclose = (event) => {
+    console.log("websocket closed");
+    setConnectedCheckbox(false);
+    //setTimeout(function () {
+    //  console.log("Reconnecting...");
+    //  wsconnect();
+    //}, 5000);
+  }
+
+  socket.onerror = (event) => {
+    console.error('websocket error:',event);
+  }
+
+  const result = await startAudioPlayerWorklet();
+  [playerNode, audioContext] = result;
+}
+
+function setConnectedCheckbox(val) {
+  const cb = document.getElementById("connected");
+  cb.checked = val;
+}
+
+function enableAudio(){
+  audioContext.resume();
+  console.log("audioContext resumed: audio enabled");
+}
+
+function handleRunConfigChange() {
+  if (socket && socket.readyState === WebSocket.OPEN) {
+    console.log("reconnecting after run configuration change");
+    socket.close();
+    // connectWebsocket() will be called by onclose handler after delay
+  }
+}
+
 function wsurl() {
-  const userId = "demo-user";
-  const sessionId = "demo-session-" + Math.random().toString(36).substring(7);
   const hostname = window.location.hostname;
   const protocol = window.location.protocol;
   const wsprot = protocol === "http:" ? "ws" : "wss";
   return `${wsprot}://${hostname}:${window.location.port}/ws/${userId}/${sessionId}`;
 }
 
-function wsconnect() {
-  const socket = new WebSocket(wsurl());
-  socket.binaryType = "arraybuffer";
-  return socket;
-}
 
 function truncate(text,len) {
   let ret = text || "";
@@ -142,38 +188,15 @@ function handleADKEvent(adkEvent,playerNode) {
   return ret;
 }
 
-async function playAudio() {
-  const result = await startAudioPlayerWorklet();
-  [playerNode, audioContext] = result;
-  audioContext.resume();
-
-  socket = wsconnect();
-
-  socket.onopen = (event) => {
-    console.log("websocket opened");
-  }
-
-  socket.onmessage = (event) => {
-    const adkEvent = JSON.parse(event.data);
-    const ret = handleADKEvent(adkEvent,playerNode);
-    if (ret.length != 0) { console.log(ret); }
-  };
-
-  socket.onclose = (event) => {
-    console.log("websocket closed");
-  }
-
-  socket.onerror = (event) => {
-    console.error('websocket error:',event);
-  }
-
-}
 
 async function sendMessage(msg) {
   await socket.send(JSON.stringify({type: "text", text: msg}));
   console.log(`sent ${msg}`);
 }
 
+wsconnect();
+
 // export to global scope
-window.playAudio = playAudio;
+window.enableAudio = enableAudio;
+window.wsconnect = wsconnect;
 window.sendMessage = sendMessage;
