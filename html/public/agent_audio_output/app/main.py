@@ -45,6 +45,11 @@ async def root():
     return FileResponse(Path(__file__).parent / "static" / "index.html")
 
 
+@app.get("/favicon.ico", include_in_schema=False)
+async def favicon():
+    return FileResponse(Path(__file__).parent / "static" / "favicon.ico")
+
+
 async def patch_response_div(prompt):
     yield sse.patch_elements(f"""<div id="response">{prompt}</div>""")
 
