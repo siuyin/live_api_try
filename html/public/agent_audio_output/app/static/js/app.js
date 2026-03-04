@@ -178,10 +178,11 @@ function showOutputTranscription(adkEvent){
   return `output transciption: ${truncate(adkEvent.outputTranscription.text,60)}`;
 }
 
-function handleTurnComplete() {
+async function handleTurnComplete() {
   const tgt=document.getElementById("agentresponse");
   const hr=document.createElement("hr");
   tgt.append(hr);
+  await MathJax.typesetPromise([tgt]);
   return "turn complete";
 }
 
