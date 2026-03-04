@@ -1,6 +1,7 @@
 // wsconnect is the main routine. Start there.
 
 import { startAudioPlayerWorklet } from "/static/js/audioplayer.js";
+import { marked } from "https://cdn.jsdelivr.net/npm/marked/lib/marked.esm.js";
 
 const userId = "demo-user";
 const sessionId = "demo-session-" + Math.random().toString(36).substring(7);
@@ -182,6 +183,7 @@ async function handleTurnComplete() {
   const tgt=document.getElementById("agentresponse");
   const hr=document.createElement("hr");
   tgt.append(hr);
+  tgt.innerHTML = marked.parse(tgt.innerHTML);
   await MathJax.typesetPromise([tgt]);
   return "turn complete";
 }

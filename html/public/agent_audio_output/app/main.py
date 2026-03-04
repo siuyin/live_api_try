@@ -39,17 +39,6 @@ session_service = InMemorySessionService()
 runner = Runner(app_name=APP_NAME, agent=agent, session_service=session_service)
 
 
-@app.get("/")
-async def root():
-    """Serve the index.html page."""
-    return FileResponse(Path(__file__).parent / "static" / "index.html")
-
-
-@app.get("/favicon.ico", include_in_schema=False)
-async def favicon():
-    return FileResponse(Path(__file__).parent / "static" / "favicon.ico")
-
-
 async def patch_response_div(prompt):
     yield sse.patch_elements(f"""<div id="response">{prompt}</div>""")
 
@@ -105,3 +94,6 @@ async def websocket_endpoint(
         print(f"Unexpected error in streaming tasks: {e}")
     finally:
         live_request_queue.close()
+
+
+app.mount("/", StaticFiles(directory="./static", html=True), name="static")
