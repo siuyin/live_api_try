@@ -170,13 +170,28 @@ function showAudio(adkEvent,playerNode) {
   return "";
 }
 
+function showOutputTranscription(adkEvent){
+  if (!adkEvent.outputTranscription) {return "";}
+
+  const tgt=document.getElementById("agentresponse");
+  tgt.append(adkEvent.outputTranscription.text);
+  return `output transciption: ${truncate(adkEvent.outputTranscription.text,60)}`;
+}
+
+function handleTurnComplete() {
+  const tgt=document.getElementById("agentresponse");
+  const hr=document.createElement("hr");
+  tgt.append(hr);
+  return "turn complete";
+}
+
 function handleADKEvent(adkEvent,playerNode) {
   const author = adkEvent.author || "system";
   const ret=[];
-  if (adkEvent.turnComplete) { ret.push("turn complete"); }
+  if (adkEvent.turnComplete) { ret.push(handleTurnComplete()); }
   else if (adkEvent.interrupted) { ret.push("interrupted"); }
   else if (adkEvent.inputTranscription) { ret.push(`input transciption: ${truncate(adkEvent.inputTranscription.text,60)}`); }
-  else if (adkEvent.outputTranscription) { ret.push(`output transciption: ${truncate(adkEvent.outputTranscription.text,60)}`); }
+  else if (adkEvent.outputTranscription) { const ot=showOutputTranscription(adkEvent); if (ot!=""){ret.push(ot)}}
   else if (adkEvent.usageMetadata) { ret.push(tokenUsage(adkEvent.usageMetadata)); }
   else if (hasContentParts) {
     if (hasExecutableCode(adkEvent)) {const ec=showExecutableCode(adkEvent); if (ec!=""){ret.push(ec)} }
