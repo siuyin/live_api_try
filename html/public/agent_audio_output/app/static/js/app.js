@@ -183,7 +183,9 @@ async function handleTurnComplete() {
   const tgt=document.getElementById("agentresponse");
   const hr=document.createElement("hr");
   tgt.append(hr);
-  tgt.innerHTML = marked.parse(tgt.innerHTML);
+  const md = marked.parse(tgt.innerHTML);
+  const sanitized = DOMPurify.sanitize(md);
+  tgt.innerHTML = sanitized;
   await MathJax.typesetPromise([tgt]);
   return "turn complete";
 }
