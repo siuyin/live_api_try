@@ -9,7 +9,6 @@ from pathlib import Path
 
 from datastar_py.fastapi import ServerSentEventGenerator as sse
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
-from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from google.adk.agents.live_request_queue import LiveRequestQueue
 from google.adk.runners import Runner
@@ -32,8 +31,8 @@ APP_NAME = "audio_output"
 app = FastAPI()
 
 # Mount static files
-static_dir = Path(__file__).parent / "static"
-app.mount("/static", StaticFiles(directory=static_dir), name="static")
+# static_dir = Path(__file__).parent / "static"
+# app.mount("/static", StaticFiles(directory=static_dir), name="static")
 
 session_service = InMemorySessionService()
 runner = Runner(app_name=APP_NAME, agent=agent, session_service=session_service)
@@ -96,4 +95,5 @@ async def websocket_endpoint(
         live_request_queue.close()
 
 
-app.mount("/", StaticFiles(directory="./static", html=True), name="static")
+static_dir = Path(__file__).parent / "static"
+app.mount("/", StaticFiles(directory=static_dir, html=True), name="static")

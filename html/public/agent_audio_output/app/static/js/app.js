@@ -1,6 +1,6 @@
 // wsconnect is the main routine. Start there.
 
-import { startAudioPlayerWorklet } from "/static/js/audioplayer.js";
+import { startAudioPlayerWorklet } from "./audioplayer.js";
 import { marked } from "https://cdn.jsdelivr.net/npm/marked/lib/marked.esm.js";
 
 const userId = "demo-user";
