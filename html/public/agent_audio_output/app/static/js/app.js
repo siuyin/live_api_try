@@ -63,7 +63,7 @@ function wsurl() {
   const hostname = window.location.hostname;
   const protocol = window.location.protocol;
   const wsprot = protocol === "http:" ? "ws" : "wss";
-  return `${wsprot}://${hostname}:${window.location.port}/ws/${userId}/${sessionId}`;
+  return `${wsprot}://${hostname}:${window.location.port}/ws/${userId}/${sessionId}?affective_dialog=true`;
 }
 
 

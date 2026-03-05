@@ -60,6 +60,7 @@ async def websocket_endpoint(
         affective_dialog: Enable affective dialog (native audio models only)
     """
     await websocket.accept()
+    print(f"Connection accepted: affective dialog: {affective_dialog}")
     run_config = audio_run_config(proactivity, affective_dialog)
 
     # Get or create session (handles both new sessions and reconnections)
