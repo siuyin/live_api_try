@@ -58,6 +58,12 @@ def audio_run_config(
         ),
         streaming_mode=StreamingMode.BIDI,
         response_modalities=["AUDIO"],
+        context_window_compression=types.ContextWindowCompressionConfig(
+            trigger_tokens=100000,  # Start compression at ~78% of 128k context
+            sliding_window=types.SlidingWindow(
+                target_tokens=80000  # Compress to ~62% of context, preserving recent turns
+            ),
+        ),
         # input_audio_transcription=types.AudioTranscriptionConfig(),
         output_audio_transcription=types.AudioTranscriptionConfig(),
         session_resumption=types.SessionResumptionConfig(),

@@ -175,7 +175,9 @@ function showOutputTranscription(adkEvent){
   if (!adkEvent.outputTranscription) {return "";}
 
   const tgt=document.getElementById("agentresponse");
-  tgt.append(adkEvent.outputTranscription.text);
+  if (!adkEvent.outputTranscription.finished) {
+    tgt.append(adkEvent.outputTranscription.text);
+  }
   return `output transciption: ${truncate(adkEvent.outputTranscription.text,60)}`;
 }
 
