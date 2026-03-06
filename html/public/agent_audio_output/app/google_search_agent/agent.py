@@ -16,8 +16,8 @@ def turn_off_the_lights() -> dict:
     return {"status": "success", "lights": "off"}
 
 
-def call_grab_car(address: str) -> dict:
-    """calls grab car for pickup at address. returns status and pickup location."""
+def call_grab_car(pickup_address: str, destination_address) -> dict:
+    """calls grab car for pickup at pickup_address for destination: destination_address. Returns status and pickup location."""
     return {"status": "success", "pickup": "level 2 private hire pickup point"}
 
 
