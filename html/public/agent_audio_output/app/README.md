@@ -1,4 +1,4 @@
-# Deploying to cloud run
+# Running locally and Deploying to cloud run
 
 ## Requirements
 1. google-adk
@@ -7,15 +7,17 @@
 1. datastar-py
 1. uvicorn[standard]
 
-## Build docker image
+If using `uv`, use `uv add {package_name}`.
+
+## Running locally
 ```
-docker build -t siuyin/liveaudio:mmddHHMM
+./run.sh
 ```
 
-## Push docker image (after docker login)
-```
-docker push siuyin/liveaudio:mmddHHMM
-```
+## Build and push docker image
+Adapt (make a copy) of `docker_build_and_push.sh` to your configuration and run it.
+
+Python is heavy. The image size is about 1GB.
 
 ## Setup gcloud-config volume
 ```
