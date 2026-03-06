@@ -1,5 +1,12 @@
 # Deploying to cloud run
 
+## Requirements
+1. google-adk
+1. fastapi
+1. python-dotenv
+1. datastar-py
+1. uvicorn[standard]
+
 ## Build docker image
 ```
 docker build -t siuyin/liveaudio:mmddHHMM
