@@ -43,7 +43,7 @@
 
     <div style="display: flex; gap: var(--size-fluid-2); margin-top: var(--size-fluid-3)">
       prompt:<textarea id="prompt" rows="3" cols="33" name="prompt" required/></textarea>
-      <button data-on:click="const ta=document.getElementById('prompt'); sendMessage(ta.value); workingindicator(true)" style="height: fit-content" >
+      <button data-on:click="const ta=document.getElementById('prompt'); sendMessage(ta.value)" style="height: fit-content" >
         Send
       </button>
         <div id="workingindicator"></div>

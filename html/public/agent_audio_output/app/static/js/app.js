@@ -214,6 +214,7 @@ function handleADKEvent(adkEvent,playerNode) {
 
 
 async function sendMessage(msg) {
+  workingindicator(true);
   await socket.send(JSON.stringify({type: "text", text: msg}));
   console.log(`sent ${msg}`);
 }
@@ -229,7 +230,6 @@ function workingindicator(state) {
   wi.classList.remove("spinner");
 }
 // export to global scope
-window.workingindicator = workingindicator;
 window.enableAudio = enableAudio;
 window.wsconnect = wsconnect;
 window.sendMessage = sendMessage;
