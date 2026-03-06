@@ -174,6 +174,8 @@ function showAudio(adkEvent,playerNode) {
 function showOutputTranscription(adkEvent){
   if (!adkEvent.outputTranscription) {return "";}
 
+  workingindicator(false); // turn off spinner
+
   const tgt=document.getElementById("agentresponse");
   if (!adkEvent.outputTranscription.finished) {
     tgt.append(adkEvent.outputTranscription.text);
@@ -218,7 +220,16 @@ async function sendMessage(msg) {
 
 wsconnect();
 
+function workingindicator(state) {
+  const wi=document.getElementById("workingindicator");
+  if (state==true) {
+    wi.classList.add("spinner");
+    return;
+  }
+  wi.classList.remove("spinner");
+}
 // export to global scope
+window.workingindicator = workingindicator;
 window.enableAudio = enableAudio;
 window.wsconnect = wsconnect;
 window.sendMessage = sendMessage;
