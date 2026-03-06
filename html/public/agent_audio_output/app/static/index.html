@@ -13,6 +13,11 @@
     <script src="./js/app.js" type="module"></script>
   </head>
   <body>
+    <div style="display: flex; gap: var(--size-fluid-2); margin-bottom: var(--size-fluid-3);">
+      <button id="john_tan" data-on:click="@get('/config/john_tan')">John Tan</button>
+      <div id="john_tan_config">
+      </div>
+    </div>
     <h1>Text prompt, audio response</h1>
 
     <div style="display: flex; gap: var(--size-fluid-2); margin-bottom: var(--size-fluid-3);">

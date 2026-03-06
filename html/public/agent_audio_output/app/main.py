@@ -7,12 +7,15 @@ import asyncio
 from dotenv import load_dotenv
 from pathlib import Path
 
-from datastar_py.fastapi import ServerSentEventGenerator as sse
+from datastar_py.fastapi import DatastarResponse, ServerSentEventGenerator as sse
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
+from fastapi.responses import StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from google.adk.agents.live_request_queue import LiveRequestQueue
 from google.adk.runners import Runner
 from google.adk.sessions import InMemorySessionService
+
+from config_db import config_db
 
 from websocket_funcs import (
     audio_run_config,
@@ -94,6 +97,22 @@ async def websocket_endpoint(
         print(f"Unexpected error in streaming tasks: {e}")
     finally:
         live_request_queue.close()
+
+
+async def getConfig(user_id: str):
+    if user_id not in config_db:
+        yield sse.patch_elements(
+            f"""<div id="{user_id}_config">{user_id} not found</div>"""
+        )
+        print(f"{user_id} not found")
+    config = config_db[user_id]
+    print(f"configuration for {user_id}: {config}")
+    yield sse.patch_elements(f"""<div id="{user_id}_config">{config}</div>""")
+
+
+@app.get("/config/{user_id}", response_class=StreamingResponse)
+async def show_config(user_id: str):
+    return DatastarResponse(getConfig(user_id))
 
 
 static_dir = Path(__file__).parent / "static"
